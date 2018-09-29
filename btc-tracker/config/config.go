@@ -1,5 +1,7 @@
 package config
 
+import "time"
+
 // API KEY
 const (
 	// todo: replace with your own AccessKey and Secret Key
@@ -18,7 +20,8 @@ const (
 // API请求地址, 不要带最后的/
 const (
 	//todo: replace with real URLs and HostName
-	MARKET_URL string = "https://api.huobi.pro"
-	TRADE_URL  string = ""
-	HOST_NAME  string = ""
+	MARKET_URL  string = "https://api.huobi.pro"
+	TRADE_URL   string = ""
+	HOST_NAME   string = ""
+	TIME_FORMAT string = time.RFC3339
 )

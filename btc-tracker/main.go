@@ -10,12 +10,13 @@ import (
 
 	"github.com/emicklei/go-restful"
 	"github.com/pho-coder/ants-plan/btc-tracker/apps"
+	"github.com/pho-coder/ants-plan/btc-tracker/config"
 )
 
 //HealthCheck ...
 func HealthCheck(req *restful.Request, resp *restful.Response) {
 	log.Println("come on Healthcheck from " + req.SelectedRoutePath())
-	io.WriteString(resp, fmt.Sprintf("%s", time.Now()))
+	io.WriteString(resp, fmt.Sprintf("%s", time.Now().Format(config.TIME_FORMAT)))
 }
 
 // CurrentPrice ...
@@ -25,9 +26,16 @@ func CurrentPrice(req *restful.Request, resp *restful.Response) {
 	io.WriteString(resp, string(currentPrice))
 }
 
+// CurrentData ...
+func CurrentData(req *restful.Request, resp *restful.Response) {
+	log.Println("come on CurrentData from " + req.SelectedRoutePath())
+	io.WriteString(resp, string("test"))
+}
+
 func index(req *restful.Request, resp *restful.Response) {
 	log.Println("come on index from " + req.SelectedRoutePath())
-	io.WriteString(resp, "<a href='/healthcheck'>HealthCheck</a>\n"+"<a href='/currentprice'>CurrentPrice</a>")
+	io.WriteString(resp, "<a href='/healthcheck'>HealthCheck</a><br>"+"<a href='/currentprice'>CurrentPrice</a><br>"+
+		"<a href='/currentdata'>CurrentData</a><br>")
 }
 
 func main() {
@@ -35,6 +43,7 @@ func main() {
 	webservice.Route(webservice.GET("/").To(index))
 	webservice.Route(webservice.GET("/healthcheck").To(HealthCheck))
 	webservice.Route(webservice.GET("/currentprice").To(CurrentPrice))
+	webservice.Route(webservice.GET("/currentdata").To(CurrentData))
 	restful.Add(webservice)
 	srv := &http.Server{
 		Addr:         "0.0.0.0:7001",
